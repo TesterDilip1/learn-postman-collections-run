@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "43c9157d-b616-4de0-94e1-0c4f1942d3db",
+		"name": "Regres_cllect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create_job",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var name = [\"Anup\",\"Manoj\",\"Kiran\",\"Pramodh\",\"Malu\"];\r",
+							"var job = [\"Farmer\",\"Business\",\"SDET\",\"Army\",\"Leader\"]\r",
+							"\r",
+							"pm.variables.set(\"name\",name[_.random(name.length-1)])\r",
+							"pm.variables.set(\"job\",job[_.random(job.length-1)])\r",
+							"//postman.setEnvironmentVariable(\"name\",\"Dilip\");\r",
+							"//postman.setEnvironmentVariable(\"job\",\"Captain\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"        \r",
+							"    \"name\": pm.variables.get(\"name\"),\r",
+							"    \"job\": pm.variables.get(\"job\"),\r",
+							"    \"id\": jsonData.id,\r",
+							"    \"createdAt\": jsonData.createdAt\r",
+							"});\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_URL}}/api/users",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutRequ",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var name = [\"Anup\",\"Manoj\",\"Kiran\",\"Pramodh\",\"Malu\"];\r",
+							"var job = [\"Farmer\",\"Business\",\"SDET\",\"Army\",\"Leader\"]\r",
+							"\r",
+							"pm.variables.set(\"name\",name[_.random(name.length-1)]);\r",
+							"pm.variables.set(\"job\",job[_.random(job.length-1)]);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Update json value test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"    \"name\": pm.variables.get(\"name\"),\r",
+							"    \"job\": pm.variables.get(\"job\"),\r",
+							"    \"updatedAt\": jsonData.updatedAt\r",
+							"});\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_URL}}/api/users/2",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Basic_Test1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.environment.set(\"variable_key\", \"variable_value\");\r",
+							"\r",
+							"const responseTest = pm.response.json();\r",
+							"\r",
+							"\r",
+							"var Name1 = responseTest.data[0].last_name;\r",
+							"//pm.collectionVariables.set(\"Name\", );\r",
+							"pm.test(\"Body is not correct \", function () {\r",
+							"    var jsonData= pm.response.json();\r",
+							"\r",
+							"///////////////////\r",
+							"const jsonArr = [jsonData.data[0].email, jsonData.data[1].email, jsonData.data[2].email, jsonData.data[3].email];\r",
+							"\r",
+							"const jsonstr = JSON.stringify(jsonArr);\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"ID_Test\",jsonstr)\r",
+							"\r",
+							"const jsonValue = JSON.parse(jsonstr);\r",
+							"\r",
+							"console.log(jsonValue[0]);\r",
+							"console.log(jsonValue[1]);\r",
+							"console.log(jsonValue[2]);\r",
+							"console.log(jsonValue[3]);\r",
+							"\r",
+							"///////////////\r",
+							"\r",
+							"\r",
+							"  //  postman.setEnvironmentVariable(\"ID_Test\", jsonData.data[0].id);\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"    \"page\": 2,\r",
+							"    \"per_page\": 6,\r",
+							"    \"total\": 12,\r",
+							"    \"total_pages\": 2,\r",
+							"    \"data\": [\r",
+							"        {\r",
+							"            \"id\": 7,\r",
+							"            \"email\": jsonData.data[0].email,\r",
+							"            \"first_name\": \"Michael\",\r",
+							"            \"last_name\": \"Lawson\",\r",
+							"            \"avatar\": \"https://reqres.in/img/faces/7-image.jpg\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"id\": 8,\r",
+							"            \"email\": jsonData.data[1].email,\r",
+							"            \"first_name\": \"Lindsay\",\r",
+							"            \"last_name\": \"Ferguson\",\r",
+							"            \"avatar\": \"https://reqres.in/img/faces/8-image.jpg\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"id\": 9,\r",
+							"            \"email\": jsonData.data[2].email,\r",
+							"            \"first_name\": \"Tobias\",\r",
+							"            \"last_name\": \"Funke\",\r",
+							"            \"avatar\": \"https://reqres.in/img/faces/9-image.jpg\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"id\": 10,\r",
+							"            \"email\": jsonData.data[3].email,\r",
+							"            \"first_name\": \"Byron\",\r",
+							"            \"last_name\": \"Fields\",\r",
+							"            \"avatar\": \"https://reqres.in/img/faces/10-image.jpg\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"id\": 11,\r",
+							"            \"email\": jsonData.data[4].email,\r",
+							"            \"first_name\": \"George\",\r",
+							"            \"last_name\": \"Edwards\",\r",
+							"            \"avatar\": \"https://reqres.in/img/faces/11-image.jpg\"\r",
+							"        },\r",
+							"        {\r",
+							"            \"id\": 12,\r",
+							"            \"email\": jsonData.data[5].email,\r",
+							"            \"first_name\": \"Rachel\",\r",
+							"            \"last_name\": \"Howell\",\r",
+							"            \"avatar\": \"https://reqres.in/img/faces/12-image.jpg\"\r",
+							"        }\r",
+							"    ],\r",
+							"    \"support\": {\r",
+							"        \"url\": \"https://reqres.in/#support-heading\",\r",
+							"        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\r",
+							"    }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_URL}}/api/users?page=2",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Basic_Test2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body is Proper\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.eql({\r",
+							"    \"data\": {\r",
+							"        \"id\": jsonData.data.id,\r",
+							"        \"email\": jsonData.data.email,\r",
+							"        \"first_name\": jsonData.data.first_name,\r",
+							"        \"last_name\": jsonData.data.last_name,\r",
+							"        \"avatar\": jsonData.data.avatar\r",
+							"    },\r",
+							"    \"support\": {\r",
+							"        \"url\": \"https://reqres.in/#support-heading\",\r",
+							"        \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"\r",
+							"    }\r",
+							"});\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_URL}}/api/users/2",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_req",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{Base_URL}}/api/users/2",
+					"host": [
+						"{{Base_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Name",
+			"value": ""
+		}
+	]
+}
