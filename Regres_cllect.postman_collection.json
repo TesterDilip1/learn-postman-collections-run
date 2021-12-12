@@ -293,12 +293,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{Base_URL}}//api/users/2",
+					"raw": "{{Base_URL}}/api/users/2",
 					"host": [
 						"{{Base_URL}}"
 					],
 					"path": [
-						"",
 						"api",
 						"users",
 						"2"
